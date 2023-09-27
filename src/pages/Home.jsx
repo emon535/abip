@@ -1,7 +1,7 @@
 
 const Home = ()=>{
     return(
-        <div>sdfsdf</div>
+        <div>Welcome to ABIP UK</div>
     )
 }
 
