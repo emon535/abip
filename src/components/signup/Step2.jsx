@@ -3,6 +3,10 @@ import { useEffect, useState } from "react";
 import { Input1 } from "../Input";
 function Step2({setStepCount}){
     const [input, setInput] = useState({presentAddress:"", permanentAddress:"", nid:"", linkedInUrl:"", facebookUrl:"", birthday:"", businessName:"", positionInBusiness:"", businessEmail:"", businessPhone:"", businessUrl:"", lastEducationalQualification:""} );
+    
+    const [alert, setAlert] = useState(false);
+
+
 
     function set(e){
         setInput({...input, [e.target.name]:e.target.value});
@@ -29,6 +33,8 @@ function Step2({setStepCount}){
                 localStorage.setItem("signUp", JSON.stringify({...data, presentAddress:input.presentAddress, permanentAddress:input.permanentAddress, nid:input.nid, linkedInUrl:input.linkedInUrl, facebookUrl:input.facebookUrl,  birthday:input.birthday, businessName:input.businessName, positionInBusiness:input.positionInBusiness, businessEmail: input.businessEmail, businessPhone:input.businessPhone, businessUrl:input.businessUrl,lastEducationalQualification:input.lastEducationalQualification}))
                 setStepCount(3)
             }
+        }else{
+            setAlert(true)
         }
     }
 
@@ -58,7 +64,9 @@ function Step2({setStepCount}){
                 <button onClick={next} className=" py-2 px-4 rounded-md bg-sky-700 text-slate-200">Next</button>
                 <button onClick={()=>setStepCount(1)}  className=" py-2 px-4 rounded-md bg-amber-600 text-slate-200">Previous</button>
             </div>
-
+            {
+                alert?<h1 className=" py-4 text-red-600">All * fields are required!</h1>:<></>
+            }
         </div>
     )
 }

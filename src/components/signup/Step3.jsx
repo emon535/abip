@@ -2,9 +2,15 @@
 import { useEffect, useState } from "react";
 import { Input1, Select, Option } from "../Input";
 import { useNavigate } from "react-router-dom";
+import API from '../../Api/api'
+import { toFormData } from "axios";
+import { memberUrl } from "../../url";
+// import { toFormData } from "axios";
 function Step3({setStepCount}){
     const [input, setInput] = useState({maritalStatus:"", fatherName:"", referenceBy:""} );
-    const [file, setFile] = useState({photo:{}, nid:{}, tradeLicense:{}, cv:{}} );
+    const [file, setFile] = useState({photo:{}, tradeLicense:{}, cv:{}} );
+    const [alert, setAlert] = useState(false);
+    const [message, setMessage] = useState("All * fields are required!");
     const navigate = useNavigate();
 
     function set(e){
@@ -12,7 +18,7 @@ function Step3({setStepCount}){
     }
 
     function getFile(e){
-        setInput({...file, [e.target.name]:e.target.files[0]});
+        setFile({...file, [e.target.name]:e.target.files[0]});
     }
 
 
@@ -27,17 +33,30 @@ function Step3({setStepCount}){
 
 
     function next(){
-        if(input.name!="" && input.maritalStatus !=""  && input.fatherName !=""){
+
+
+        if(input.name!="" && input.maritalStatus !=""  && input.fatherName !="" && file.cv !={} && file.photo != {} && file.tradeLicense != {}){
             const data = JSON.parse(localStorage.getItem("signUp"));
-            console.log(data)
             if(data == null){
                 localStorage.setItem("signUp", JSON.stringify({ maritalStatus:input.maritalStatus, fatherName:input.fatherName, referenceBy:input.referenceBy}))
                 setStepCount(1)
             }else{
-                localStorage.setItem("signUp", JSON.stringify({...data, maritalStatus:input.maritalStatus, fatherName:input.fatherName, referenceBy:input.referenceBy}))
-                
-                navigate("/memberLogIn")
+                localStorage.setItem("signUp", JSON.stringify({...data, maritalStatus:input.maritalStatus, fatherName:input.fatherName, referenceBy:input.referenceBy}));
+
+                API.post(`${memberUrl}`, toFormData({...data, maritalStatus:input.maritalStatus, fatherName:input.fatherName, referenceBy:input.referenceBy, cv:file.cv, photo:file.photo, tradeLicense:file.tradeLicense})).then((data)=>{
+                    console.log(data)
+                    if(data.status == true){
+                        localStorage.clear("signUp")
+                        navigate("/memberLogIn")
+                    }
+                }).catch((error)=>{
+                    setAlert(true)
+                    setMessage(error?.response?.data?.message)
+                })
+
             }
+        }else{
+            setAlert(true)
         }
     }
 
@@ -50,15 +69,15 @@ function Step3({setStepCount}){
                     <Input1 onChange={set} type="text" name="fatherName" placeholder="Enter father's Name:" value={input.fatherName} label="Father's Name *" />
                     <Input1 onChange={getFile} type="file" name="photo" label="Applicant's Photo *" />
                     <Input1 onChange={getFile} type="file" name="tradeLicense" label="Trade License *" />
-                    <Input1 onChange={set} type="text" name="referenceBy" placeholder="Enter reference by:" value={input.referenceBy} label="Reference By *" />
+
                 </div>
                 <div className=" w-full">
+                <Input1 onChange={set} type="text" name="referenceBy" placeholder="Enter reference by:" value={input.referenceBy} label="Reference By *" />
                 <Select onChange={set} name="maritalStatus" value={input.maritalStatus} label="Marital Status *" >
                     <Option value="">Marital Status</Option>
                     <Option value="Married">Married</Option>
                     <Option value="Unmarried">Unmarried</Option>
                 </Select>
-                <Input1 onChange={getFile} type="file" name="nid"  label="NID *" />
                 <Input1 onChange={getFile} type="file" name="cv"  label="CV *" />
                 </div>
             </div>
@@ -66,7 +85,9 @@ function Step3({setStepCount}){
                 <button onClick={next} className=" py-2 px-4 rounded-md bg-sky-700 text-slate-200">Submit</button>
                 <button onClick={()=>setStepCount(2)}  className=" py-2 px-4 rounded-md bg-amber-600 text-slate-200">Previous</button>
             </div>
-
+            {
+                alert?<h1 className=" py-4 text-red-600">{message}</h1>:<></>
+            }
         </div>
     )
 }
