@@ -1,9 +1,16 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import { Input1 } from "../Input";
+import 'react-phone-number-input/style.css'
+import '../../assets/css/custom.css'
+import PhoneInput from 'react-phone-number-input'
 function Step1({setStepCount}){
     const [input, setInput] = useState({name:"", email:"", phone:"", password:"", rPassword:""} );
     const [alert, setAlert] = useState(false);
+    const [file, setFile] = useState({photo:{}, tradeLicense:{}, cv:{}} );
+    const [phone, setPhone] = useState();
+    const [sugg, setSugg] = useState([]);
+    const [address, setAddress] = useState("");
 
     function set(e){
         setInput({...input, [e.target.name]:e.target.value});
@@ -18,6 +25,19 @@ function Step1({setStepCount}){
     }, [])
     
 
+    function getFile(e){
+        setFile({...file, [e.target.name]:e.target.files[0]});
+    }
+
+    function getSugg(text){
+
+        setAddress(text)
+
+        fetch(`https://api.getAddress.io/autocomplete/${text}?api-key=3Ihph0lYAU6P1llsphU68Q5211`).then((data)=>data.json()).then((data)=>{
+            setSugg([])
+            setSugg(data.suggestions);
+        })
+    }
 
 
     function next(){
@@ -36,20 +56,39 @@ function Step1({setStepCount}){
         }
     }
 
+    console.log(address)
+
       
     return(
-        <div className=" ">
+        <div className="">
             <div className=" w-full flex gap-4 mt-10">
                 
                 <div className=" w-full">
                     <Input1 onChange={set} type="text" name="name" placeholder="Enter name:" value={input.name} label="Name *" />
+                    <Input1 onChange={set} type="email" name="email" placeholder="Enter email:" value={input.email} label="Email *" />
+                    <div className=" w-full pt-2">
+                        <label htmlFor="">Phone Number *</label>
+                        <PhoneInput className="w-full outline-none rounded-md border-2 focus:border-2 focus:border-cyan-900 pl-2 py-2 text-gray-600 required:border-red-500" placeholder="Enter phone number" value={phone} onChange={setPhone} />
+
+                    </div>
+                    <Input1 onChange={(e)=>getSugg(e.target.value)} type="text" name="address" placeholder="Enter present address:" value={address} label="Present address *" />
+                    {
+                        (sugg.length > 0)?
+                        <div className=" w-auto h-auto p-4 bg-slate-400 absolute">
+                            {
+                                sugg.map((data)=>{
+                                    return(
+                                        <div key={data.id} onClick={()=>{setAddress(data.address); setSugg([]); }} className=" text-white border m-1 p-1 cursor-pointer">{data.address}</div>
+                                    )
+                                })
+                            }
+                        </div>:<></>
+                    }
+
+                    <Input1 onChange={getFile} type="file" name="photo" label="Applicant's Photo *" />
                     <Input1 onChange={set} type="password" name="password" placeholder="Enter password:" value={input.password} label="Password *" />
                     <Input1 onChange={set} type="password" name="rPassword" placeholder="Enter confirm password:" value={input.rPassword} label="Confirm password *" />
-                </div>
-                <div className=" w-full">
-                    <Input1 onChange={set} type="email" name="email" placeholder="Enter email:" value={input.email} label="Email *" />
-                    <Input1 onChange={set} type="number" name="phone" placeholder="Enter email:" value={input.phone} label="Phone number *" />
-                </div>
+                    </div>
             </div>
             <div className=" w-full absolute bottom-8 -ml-10 flex flex-row-reverse">
                 <button onClick={next} className=" py-2 px-4 rounded-md bg-sky-700 text-slate-200">Next</button>

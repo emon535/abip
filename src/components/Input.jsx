@@ -3,9 +3,9 @@
 
 function Input1({onChange, type, name, placeholder, value, label, id}){
     return(
-        <div className=" w-full">
+        <div className=" w-full pt-2">
             <label htmlFor={id} className="block cursor-pointer mt-2 mb-1 text-gray-600">{label}</label>
-            <input onChange={onChange} type={type} name={name} placeholder={placeholder} value={value} id={id} className=" w-full outline-none focus:bg-cyan-100 pl-2 py-1 rounded-sm text-gray-600 required:border-red-500" />
+            <input onChange={onChange} type={type} name={name} placeholder={placeholder} value={value} id={id} className=" w-full outline-none rounded-md border-2 focus:border-2 focus:border-cyan-900 pl-2 py-1 text-gray-600 required:border-red-500" />
         </div>
     )
 }

@@ -49,7 +49,7 @@ function Step2({setStepCount}){
                     <Input1 onChange={set} type="text" name="businessName" placeholder="Enter business name:" value={input.businessName} label="Business Name *" />
                     <Input1 onChange={set} type="number" name="businessPhone" placeholder="Enter business phone:" value={input.businessPhone} label="Business Phone *" />
 
-                    <Input1 onChange={set} type="text" name="positionInBusiness" placeholder="Enter position in you Business:" value={input.positionInBusiness} label="Position in you Business" />
+
                 </div>
                 <div className=" w-full">
                     <Input1 onChange={set} type="text" name="permanentAddress" placeholder="Enter permanent Address:" value={input.permanentAddress} label="Permanent Address *" />
