@@ -30,7 +30,7 @@ function ViewMember(){
                         <div className=" flex items-center justify-center mt-4">
                             <img className=" w-[200px] h-[200px] rounded-md " src={`${baseUrl}/public/upload/${member.photo}`} alt="" />
                         </div>
-                        <div className=" p-6">
+                        <div className=" p-6 pl-10">
                             <div>
                                 <span className=" font-bold">Name: </span>
                                 <span>{member.name}</span>
@@ -63,14 +63,6 @@ function ViewMember(){
                                 <span className=" font-bold">Permanent Address: </span>
                                 <span>{member.permanentAddress}</span>
                             </div>
-                            <div>
-                                <span className=" font-bold">Facebook URL: </span>
-                                <span>{member.facebookUrl}</span>
-                            </div>
-                            <div>
-                                <span className=" font-bold">Linked In URL: </span>
-                                <span>{member.linkedInUrl}</span>
-                            </div>
                  
                             <div>
                                 <span className=" font-bold">Business Name: </span>
@@ -85,10 +77,6 @@ function ViewMember(){
                                 <span>{member.businessPhone}</span>
                             </div>
                             <div>
-                                <span className=" font-bold">Position In Business: </span>
-                                <span>{member.positionInBusiness}</span>
-                            </div>
-                            <div>
                                 <span className=" font-bold">Business URL: </span>
                                 <span>{member.businessUrl}</span>
                             </div>
@@ -97,8 +85,14 @@ function ViewMember(){
                                 <span>{member.lastEducationalQualification}</span>
                             </div>
                             <div>
-                                <span className=" font-bold">Trade License: </span>
-                                <a className=" underline text-orange-500" href={`${baseUrl}/public/upload/${member.tradeLicense}`} target="_blank" rel="noopener noreferrer">View/Download</a>
+                                <span className=" font-bold">Facebook URL: </span>
+                                <a className=" underline text-orange-500" href={`${member.facebookUrl}`} target="_blank" rel="noopener noreferrer">{member.facebookUrl}</a>
+                                
+                            </div>
+                            <div>
+                                <span className=" font-bold">Linkedin URL: </span>
+                                <a className=" underline text-orange-500" href={`${member.linkedInUrl}`} target="_blank" rel="noopener noreferrer">{member.linkedInUrl}</a>
+                                
                             </div>
                             <div>
                                 <span className=" font-bold">CV: </span>

@@ -2,6 +2,7 @@
 
 import { Link } from 'react-router-dom';
 import { Input1, Option, Select } from './Input';
+import { useEffect } from 'react';
 
 function Table({rowNames, to, name, children, srcVal, srcFunc, data, limit, setLimit, page, setPage}){
    
@@ -11,21 +12,23 @@ function Table({rowNames, to, name, children, srcVal, srcFunc, data, limit, setL
         buttons.push(<button key={i} onClick={()=>setPage(i)} className={` ${i=== (data.previous.page+1)?' text-green-400':' text-white' } h-11 w-11 mr-1`}>{i}</button>)
     }
 
-    if(data.totalPage === 1){
-        setPage(1)
-    }
+    useEffect(()=>{
+        if(data.totalPage === 1){
+            setPage(1)
+        }
+    },[data.totalPage, setPage])
 
 
 
     return(
         <>
         <div className={` w-max md:w-full flex flex-col mx-auto p-2`}>
-            <div className={` w-full   p-2 h-32 mt-20 bg-dark-blue-1 mx-auto rounded-tl-md rounded-tr-md`}>
-                    <div>
+            <div className={` w-full  p-2 h-32 mt-20 bg-dark-blue-1 mx-auto rounded-tl-md rounded-tr-md`}>
+                    {/* <div>
                         <Link to={to}><button className=" rounded-3xl bg-cyan-200 hover:bg-dark-blue-1 border-2 border-cyan-200 hover:text-white   float-right mt-2 mr-2 px-2 py-1">{name}</button></Link>
-                    </div>
+                    </div> */}
                     <div className=' mb-2'>
-                        <div className=' w-36 md:w-56'>
+                        <div className=' w-[200px] flex gap-4 items-center justify-center'>
                             <Select value={limit} onChange={(e)=>setLimit(parseInt(e.target.value))}>
                                 <Option value={3}>3</Option>
                                 <Option value={5}>5</Option>
@@ -36,7 +39,7 @@ function Table({rowNames, to, name, children, srcVal, srcFunc, data, limit, setL
                                 <Option value={1000}>1000</Option>
                                 <Option value={0}>All</Option>
                             </Select>
-                            <Input1 name='search' onChange={srcFunc} placeholder="Search..." type="text" value={srcVal} />
+                            {/* <Input1 name='search' onChange={srcFunc} placeholder="Search..." type="text" value={srcVal} /> */}
                         </div>
                     </div>
                 </div>

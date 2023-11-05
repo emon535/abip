@@ -3,6 +3,9 @@ import { FaPowerOff } from "react-icons/fa6";
 import API from "../Api/api";
 import { memberUrl } from "../url";
 import useAuth from "../hooks/useAuth";
+import logo from '../assets/images/logo.png';
+
+
 function MemberNav(){
     const { id } = useAuth()
     const navigate = useNavigate()
@@ -17,7 +20,7 @@ function MemberNav(){
     return(
         <nav className=" w-full h-[70px] sticky top-0 z-20 flex items-center justify-between  bg-slate-300 px-20">
             <div  className=" w-[200px] h-full flex items-center justify-center">
-                <Link to="/"><span className=" text-3xl uppercase">LOGO Here</span></Link> 
+                <Link to="/"><img className=" w-[70px]" src={logo} alt="" /></Link> 
             </div>
             <div className=" w-[600px] h-full flex items-center gap-4 ">
                 {/* <NavLink to="/" className={({isActive})=>` uppercase ${isActive? 'text-orange-600':'text-slate-800'} `}>Home</NavLink>
