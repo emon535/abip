@@ -8,7 +8,7 @@ import { memberUrl } from "../../url";
 // import { toFormData } from "axios";
 function Step3({setStepCount}){
     const [input, setInput] = useState({maritalStatus:"", fatherName:"", referenceBy:""} );
-    const [file, setFile] = useState({photo:{}, tradeLicense:{}, cv:{}} );
+    const [file, setFile] = useState({ cv:{}, photo:{}} );
     const [alert, setAlert] = useState(false);
     const [message, setMessage] = useState("All * fields are required!");
     const navigate = useNavigate();
@@ -35,15 +35,19 @@ function Step3({setStepCount}){
     function next(){
 
 
-        if(input.name!="" && input.maritalStatus !=""  && input.fatherName !="" && file.cv !={} && file.photo != {} && file.tradeLicense != {}){
+        if(input.maritalStatus !=""  && input.fatherName !="" ){
             const data = JSON.parse(localStorage.getItem("signUp"));
             if(data == null){
-                localStorage.setItem("signUp", JSON.stringify({ maritalStatus:input.maritalStatus, fatherName:input.fatherName, referenceBy:input.referenceBy}))
+                    <Input1 onChange={getFile} type="file" name="photo" label="Applicant's photo *" />
+                localStorage.setItem("signUp", JSON.stringify({ maritalStatus:input.maritalStatus, fatherName:input.fatherName, cv:file.cv, photo:file.photo, referenceBy:input.referenceBy}))
                 setStepCount(1)
             }else{
-                localStorage.setItem("signUp", JSON.stringify({...data, maritalStatus:input.maritalStatus, fatherName:input.fatherName, referenceBy:input.referenceBy}));
+                    <Input1 onChange={getFile} type="file" name="photo" label="Applicant's photo *" />
+                localStorage.setItem("signUp", JSON.stringify({...data, maritalStatus:input.maritalStatus, fatherName:input.fatherName, cv:file.cv, photo:file.photo, referenceBy:input.referenceBy}));
 
-                API.post(`${memberUrl}`, toFormData({...data, maritalStatus:input.maritalStatus, fatherName:input.fatherName, referenceBy:input.referenceBy, cv:file.cv, photo:file.photo, tradeLicense:file.tradeLicense})).then((data)=>{
+                console.log(data)
+
+                API.post(`${memberUrl}`, toFormData({...data, maritalStatus:input.maritalStatus, fatherName:input.fatherName, referenceBy:input.referenceBy, cv:file.cv, photo:file.photo})).then((data)=>{
                     console.log(data)
                     if(data.status == true){
                         localStorage.clear("signUp")
@@ -66,19 +70,15 @@ function Step3({setStepCount}){
             <div className=" w-full flex gap-4 mt-10">
                 <div className=" w-full">
       
-                    <Input1 onChange={set} type="text" name="fatherName" placeholder="Enter father's Name:" value={input.fatherName} label="Father's Name *" />
-                    <Input1 onChange={getFile} type="file" name="photo" label="Applicant's Photo *" />
-                    <Input1 onChange={getFile} type="file" name="tradeLicense" label="Trade License *" />
-
-                </div>
-                <div className=" w-full">
-                <Input1 onChange={set} type="text" name="referenceBy" placeholder="Enter reference by:" value={input.referenceBy} label="Reference By *" />
+                <Input1 onChange={set} type="text" name="fatherName" placeholder="Enter father's Name:" value={input.fatherName} label="Father's Name *" />
+                <Input1 onChange={set} type="text" name="referenceBy" placeholder="Enter reference by:" value={input.referenceBy} label="Reference By" />
                 <Select onChange={set} name="maritalStatus" value={input.maritalStatus} label="Marital Status *" >
                     <Option value="">Marital Status</Option>
                     <Option value="Married">Married</Option>
                     <Option value="Unmarried">Unmarried</Option>
                 </Select>
-                <Input1 onChange={getFile} type="file" name="cv"  label="CV *" />
+                <Input1 onChange={getFile} type="file" name="photo" label="Applicant's photo *" />
+                <Input1 onChange={getFile} type="file" name="cv"  label="CV " />
                 </div>
             </div>
             <div className=" w-full absolute bottom-8 -ml-10 flex flex-row-reverse gap-4">

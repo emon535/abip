@@ -1,9 +1,13 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import { Input1 } from "../Input";
+import 'react-phone-number-input/style.css'
+import '../../assets/css/custom.css'
+import PhoneInput from 'react-phone-number-input'
+
 function Step2({setStepCount}){
-    const [input, setInput] = useState({presentAddress:"", permanentAddress:"", nid:"", linkedInUrl:"", facebookUrl:"", birthday:"", businessName:"", positionInBusiness:"", businessEmail:"", businessPhone:"", businessUrl:"", lastEducationalQualification:""} );
-    
+    const [input, setInput] = useState({linkedInUrl:"", facebookUrl:"", businessName:"", positionInBusiness:"", businessEmail:"", businessUrl:"", lastEducationalQualification:""} );
+    const [phone, setPhone] = useState();
     const [alert, setAlert] = useState(false);
 
 
@@ -16,26 +20,25 @@ function Step2({setStepCount}){
     useEffect(()=>{
         const data = JSON.parse(localStorage.getItem("signUp"));
         if(data != null){
-            setInput({...input, ...data})
+            setInput({...input, ...data});
+            setPhone(data.businessPhone)
         }
     }, [])
     
 
 
     function next(){
-        if(input.presentAddress!="" && input.permanentAddress !="" && input.nid !="" && input.facebookUrl !="" && input.birthday !="" && input.businessName !="" && input.positionInBusiness !="" && input.businessEmail !="" && input.businessPhone !=""){
-            const data = JSON.parse(localStorage.getItem("signUp"));
-            console.log(data)
-            if(data == null){
-                localStorage.setItem("signUp", JSON.stringify({presentAddress:input.presentAddress, permanentAddress:input.permanentAddress, nid:input.nid, linkedInUrl:input.linkedInUrl, facebookUrl:input.facebookUrl, birthday:input.birthday, businessName:input.businessName, positionInBusiness:input.positionInBusiness, businessEmail: input.businessEmail, businessPhone:input.businessPhone, businessUrl:input.businessUrl,lastEducationalQualification:input.lastEducationalQualification }));
-                setStepCount(3)
-            }else{
-                localStorage.setItem("signUp", JSON.stringify({...data, presentAddress:input.presentAddress, permanentAddress:input.permanentAddress, nid:input.nid, linkedInUrl:input.linkedInUrl, facebookUrl:input.facebookUrl,  birthday:input.birthday, businessName:input.businessName, positionInBusiness:input.positionInBusiness, businessEmail: input.businessEmail, businessPhone:input.businessPhone, businessUrl:input.businessUrl,lastEducationalQualification:input.lastEducationalQualification}))
-                setStepCount(3)
-            }
+ 
+        const data = JSON.parse(localStorage.getItem("signUp"));
+        console.log(data)
+        if(data == null){
+            localStorage.setItem("signUp", JSON.stringify({linkedInUrl:input.linkedInUrl, facebookUrl:input.facebookUrl, businessName:input.businessName, positionInBusiness:input.positionInBusiness, businessEmail: input.businessEmail, businessPhone:phone, businessUrl:input.businessUrl,lastEducationalQualification:input.lastEducationalQualification }));
+            setStepCount(3)
         }else{
-            setAlert(true)
+            localStorage.setItem("signUp", JSON.stringify({...data, linkedInUrl:input.linkedInUrl, facebookUrl:input.facebookUrl,  businessName:input.businessName, positionInBusiness:input.positionInBusiness, businessEmail: input.businessEmail, businessPhone:phone, businessUrl:input.businessUrl,lastEducationalQualification:input.lastEducationalQualification}))
+            setStepCount(3)
         }
+    
     }
 
       
@@ -43,21 +46,17 @@ function Step2({setStepCount}){
         <div className=" ">
             <div className=" w-full flex gap-4 mt-10">
                 <div className=" w-full">
-                    <Input1 onChange={set} type="text" name="presentAddress" placeholder="Enter present address:" value={input.presentAddress} label="Present address *" />
-                    <Input1 onChange={set} type="text" name="facebookUrl" placeholder="Enter facebook url:" value={input.facebookUrl} label=" Facebook URL *" />
-                    <Input1 onChange={set} type="text" name="linkedInUrl" placeholder="Enter linked in url:" value={input.linkedInUrl} label="linked In URL " />
-                    <Input1 onChange={set} type="text" name="businessName" placeholder="Enter business name:" value={input.businessName} label="Business Name *" />
-                    <Input1 onChange={set} type="number" name="businessPhone" placeholder="Enter business phone:" value={input.businessPhone} label="Business Phone *" />
+                    <Input1 onChange={set} type="text" name="facebookUrl" placeholder="Enter facebook url:" value={input.facebookUrl} label=" Facebook url" />
+                    <Input1 onChange={set} type="text" name="linkedInUrl" placeholder="Enter linkedin url:" value={input.linkedInUrl} label="Linkedin url " />
+                    <Input1 onChange={set} type="text" name="businessName" placeholder="Enter business name:" value={input.businessName} label="Business name" />
+                    <div className=" w-full pt-2">
+                        <label htmlFor="">Business phone number *</label>
+                        <PhoneInput className="w-full outline-none rounded-md border-2 focus:border-2 focus:border-cyan-900 pl-2 py-2 text-gray-600 required:border-red-500" placeholder="Enter business phone:" value={phone} onChange={setPhone} />
 
-
-                </div>
-                <div className=" w-full">
-                    <Input1 onChange={set} type="text" name="permanentAddress" placeholder="Enter permanent Address:" value={input.permanentAddress} label="Permanent Address *" />
-                    <Input1 onChange={set} type="number" name="nid" placeholder="Enter nid number:" value={input.nid} label="NID number *" />
-                    <Input1 onChange={set} type="date" name="birthday" value={input.birthday} label="Date of Birth *" />
-                    <Input1 onChange={set} type="text" name="businessEmail" placeholder="Enter business email:" value={input.businessEmail} label="Business Email *" />
-                    <Input1 onChange={set} type="text" name="businessUrl" placeholder="Enter Business URL:" value={input.businessUrl} label="Business URL" />
-                    <Input1 onChange={set} type="text" name="lastEducationalQualification" placeholder="Enter last educational qualification:" value={input.lastEducationalQualification} label="Last Educational Qualification" />
+                    </div>       
+                    <Input1 onChange={set} type="text" name="businessEmail" placeholder="Enter business email:" value={input.businessEmail} label="Business email" />
+                    <Input1 onChange={set} type="text" name="businessUrl" placeholder="Enter Business url:" value={input.businessUrl} label="Business url" />
+                    <Input1 onChange={set} type="text" name="lastEducationalQualification" placeholder="Enter last educational qualification:" value={input.lastEducationalQualification} label="Last educational qualification" />
                 </div>
             </div>
             <div className=" w-full absolute bottom-8 -ml-10 flex flex-row-reverse gap-4 ">

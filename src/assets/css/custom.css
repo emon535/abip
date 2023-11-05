@@ -1,5 +1,26 @@
+html{
+    scroll-behavior:smooth;
+}
+
+
+
+
 .PhoneInputInput{
     height: 34px;
     border-radius: 4px;
     
 }
+
+
+.banner{
+    background-image: linear-gradient(to bottom, rgba(0, 53, 79, 0.949) 0%, rgba(0, 53, 79, 0.905) 100%), url('../images/people.jpg');
+}
+
+.bg1{
+    background-image: linear-gradient(to bottom, rgba(0, 33, 49, 0.959) 0%, rgba(0, 28, 42, 0.964) 100%), url('../images/people.jpg');
+}
+
+.bg2{
+    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.959) 0%, rgba(255, 255, 255, 0.964) 100%), url('../images/people.jpg');
+}
+

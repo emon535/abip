@@ -1,11 +1,23 @@
 import { FaEnvelope, FaF, FaFacebook, FaFacebookF, FaInstagram, FaLinkedin, FaLinkedinIn, FaMapLocation, FaPhone, FaTwitter } from "react-icons/fa6";
 import Nav from "../components/Nav";
+import people from '../assets/images/people.jpg'
+import Footer from "../components/Footer";
+import { useEffect } from "react";
+import Top from "../components/Top";
 
 function Contact(){
+
+    useEffect(()=>{
+        window.scroll(0,0)
+    })
+
     return(
         <div>
             <Nav/>
-
+            <Top/>
+            <div  className=" w-full h-[500px] banner bg-no-repeat bg-cover  flex items-center justify-center">
+                <div className=" text-white font-bold text-5xl">Contact Us</div>
+            </div>
             <div className=" w-full flex gap-40 mt-40">
                 <div className=" w-[40%] py-[100px] flex justify-end text-slate-200">
                     <div className=" w-[400px] h-[500px] rounded-md bg-cyan-900 ">
@@ -44,9 +56,9 @@ function Contact(){
                 <div className=" w-[60%]  ">
                     <div className=" w-full">
                         <div className=" flex items-center gap-2 font-bold text-slate-500">
-                            <div className=" w-[60px] h-[2px] bg-orange-600"></div>
+                            <div className=" w-[60px] h-[2px] bg-rose-600"></div>
                             <span>Since From 2023</span>
-                            <div className=" w-[60px] h-[2px] bg-orange-600"></div>
+                            <div className=" w-[60px] h-[2px] bg-rose-600"></div>
                         </div>
                         <div className=" text-4xl font-bold text-sky-900">Get In Touch</div>
                     </div>
@@ -74,6 +86,10 @@ function Contact(){
                     </div>
                 </div>
             </div>
+            <div className=" pt-24">
+                <iframe className=" w-full"  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10323.4114596108!2d90.44021138935993!3d23.8229680916372!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755b8b087026b81%3A0x8fa563bbdd5904c2!2sDhaka!5e0!3m2!1sen!2sbd!4v1699187715607!5m2!1sen!2sbd" width="800" height="600"  allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+            <Footer />
         </div>
     )
 }

@@ -5,9 +5,8 @@ import 'react-phone-number-input/style.css'
 import '../../assets/css/custom.css'
 import PhoneInput from 'react-phone-number-input'
 function Step1({setStepCount}){
-    const [input, setInput] = useState({name:"", email:"", phone:"", password:"", rPassword:""} );
+    const [input, setInput] = useState({name:"", email:"", birthday:"", password:"", rPassword:""} );
     const [alert, setAlert] = useState(false);
-    const [file, setFile] = useState({photo:{}, tradeLicense:{}, cv:{}} );
     const [phone, setPhone] = useState();
     const [sugg, setSugg] = useState([]);
     const [address, setAddress] = useState("");
@@ -20,13 +19,15 @@ function Step1({setStepCount}){
     useEffect(()=>{
         const data = JSON.parse(localStorage.getItem("signUp"));
         if(data != null){
-            setInput({...input, ...data})
+            setInput({...input, ...data});
+            setPhone(data.phone);
+            setAddress(data.address);
         }
     }, [])
     
 
     function getFile(e){
-        setFile({...file, [e.target.name]:e.target.files[0]});
+        setFile(e.target.files[0]);
     }
 
     function getSugg(text){
@@ -41,22 +42,20 @@ function Step1({setStepCount}){
 
 
     function next(){
-        if(input.name!="" && input.email !="" && input.phone !="" && input.password !="" && input.rPassword !=""  && ( input.password === input.rPassword)){
+        if(input.name!="" && input.email !="" && input.email !=""  && phone !="" && address !="" && input.password !="" && input.rPassword !=""  && ( input.password === input.rPassword)){
             const data = JSON.parse(localStorage.getItem("signUp"));
             console.log(data)
             if(data == null){
-                localStorage.setItem("signUp", JSON.stringify({name:input.name, email:input.email, phone:input.phone, password:input.password, rPassword:input.rPassword,}))
+                localStorage.setItem("signUp", JSON.stringify({name:input.name, email:input.email, birthday:input.birthday,  phone:phone, address:address, password:input.password, rPassword:input.rPassword,}))
                 setStepCount(2)
             }else{
-                localStorage.setItem("signUp", JSON.stringify({...data, name:input.name, email:input.email, phone:input.phone, password:input.password, rPassword:input.rPassword,}))
+                localStorage.setItem("signUp", JSON.stringify({...data, name:input.name, email:input.email, birthday:input.birthday, phone:phone, address:address, password:input.password, rPassword:input.rPassword,}))
                 setStepCount(2)
             }
         }else{
             setAlert(true)
         }
     }
-
-    console.log(address)
 
       
     return(
@@ -67,11 +66,11 @@ function Step1({setStepCount}){
                     <Input1 onChange={set} type="text" name="name" placeholder="Enter name:" value={input.name} label="Name *" />
                     <Input1 onChange={set} type="email" name="email" placeholder="Enter email:" value={input.email} label="Email *" />
                     <div className=" w-full pt-2">
-                        <label htmlFor="">Phone Number *</label>
+                        <label htmlFor="">Phone number *</label>
                         <PhoneInput className="w-full outline-none rounded-md border-2 focus:border-2 focus:border-cyan-900 pl-2 py-2 text-gray-600 required:border-red-500" placeholder="Enter phone number" value={phone} onChange={setPhone} />
 
                     </div>
-                    <Input1 onChange={(e)=>getSugg(e.target.value)} type="text" name="address" placeholder="Enter present address:" value={address} label="Present address *" />
+                    <Input1 onChange={(e)=>getSugg(e.target.value)} type="text" name="address" placeholder="Enter address:" value={address} label="Address *" />
                     {
                         (sugg.length > 0)?
                         <div className=" w-auto h-auto p-4 bg-slate-400 absolute">
@@ -84,8 +83,7 @@ function Step1({setStepCount}){
                             }
                         </div>:<></>
                     }
-
-                    <Input1 onChange={getFile} type="file" name="photo" label="Applicant's Photo *" />
+                    <Input1 onChange={set} type="date" name="birthday" value={input.birthday} label="Date of birth *" />
                     <Input1 onChange={set} type="password" name="password" placeholder="Enter password:" value={input.password} label="Password *" />
                     <Input1 onChange={set} type="password" name="rPassword" placeholder="Enter confirm password:" value={input.rPassword} label="Confirm password *" />
                     </div>

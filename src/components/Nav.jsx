@@ -1,7 +1,7 @@
 import { Link, NavLink } from "react-router-dom";
-import { FaUserPlus } from "react-icons/fa6";
 import useAuth from "../hooks/useAuth";
 import baseUrl from "../url";
+import logo from '../../src/assets/images/logo.png';
 function Nav(){
     const  { status, photo, role } = useAuth();
 
@@ -10,14 +10,14 @@ function Nav(){
             {/* <div className=" w-full h-[40px] bg-slate-500">
             sdfssdff
             </div> */}
-            <nav className=" w-full h-[70px] sticky top-0 z-20 flex items-center justify-between  bg-slate-200 px-20">
+            <nav className=" w-full h-[70px] sticky top-0 z-20 flex items-center justify-between  bg-slate-200 px-20 shadow-md">
                 <div  className=" w-[200px] h-full flex items-center justify-center">
-                    <Link to="/"><span className=" text-3xl uppercase">LOGO Here</span></Link> 
+                    <Link to="/"><img className=" w-[80px]" src={logo} alt="" /></Link> 
                 </div>
                 <div className=" w-[600px] h-full flex items-center gap-4 font-bold">
-                    <NavLink to="/" className={({isActive})=>` uppercase hover:text-orange-600 ${isActive? 'text-orange-600':'text-slate-800'} `}>Home</NavLink>
-                    <NavLink to="/about" className={({isActive})=>` uppercase hover:text-orange-600 ${isActive? 'text-orange-600':'text-slate-800'} `}>About Us</NavLink>
-                    <NavLink to="/contact" className={({isActive})=>` uppercase hover:text-orange-600 ${isActive? 'text-orange-600':'text-slate-800'} `}>Contact Us</NavLink>
+                    <NavLink to="/" className={({isActive})=>` uppercase hover:text-rose-600 ${isActive? 'text-rose-600':'text-slate-600'} `}>Home</NavLink>
+                    <NavLink to="/about" className={({isActive})=>` uppercase hover:text-rose-600 ${isActive? 'text-rose-600':'text-slate-600'} `}>About Us</NavLink>
+                    <NavLink to="/contact" className={({isActive})=>` uppercase hover:text-rose-600 ${isActive? 'text-rose-600':'text-slate-600'} `}>Contact Us</NavLink>
                 </div>
                 <div className=" w-[250px] ">
                     {
@@ -35,16 +35,16 @@ function Nav(){
                             
                         </>:
                         <div className=" flex">
-                           <Link to="/memberLogIn" className=" shrink-0">
-                                <button className=" py-2 px-2 rounded-l-md flex items-center justify-center bg-cyan-900  hover:bg-cyan-800 text-slate-200"> 
+                           <NavLink to="/memberLogIn" className={({isActive})=>` shrink-0 uppercase hover:text-rose-600 ${isActive? 'text-rose-600':'text-slate-600'} `}>
+                                <button className=" py-2 px-2 rounded-l-md flex items-center justify-center "> 
                                     <span> Member LogIn</span>
                                 </button>
-                            </Link>
-                            <Link to="/memberSignUp"  className=" shrink-0">
-                                <button className=" py-2 px-2 rounded-r-md flex items-center justify-center bg-cyan-900 hover:bg-cyan-800 text-slate-200 border-l-2 border-cyan-800"> 
-                                    <span> Become a Member</span>
+                            </NavLink>
+                            <NavLink to="/memberSignUp"  className={({isActive})=>` shrink-0 uppercase hover:text-rose-600 ${isActive? 'text-rose-600':'text-slate-600'} `}>
+                                <button className=" py-2 px-2 rounded-r-md flex items-center justify-center border-l-2 border-slate-300"> 
+                                    <span> Become A Member</span>
                                 </button>
-                            </Link>
+                            </NavLink>
                         </div>
 
                         
